@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
@@ -12,138 +13,148 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 <style>
 *{box-sizing:border-box}
 
+:root{
+  --vh: 1vh;
+}
+
 body{
-margin:0;
-width:100%;
-height:100%;
-overflow:hidden;
-background:#fff0f5;
-font-family:'Playfair Display',serif;
+  margin:0;
+  width:100%;
+  height:calc(var(--vh) * 100);
+  overflow:hidden;
+  background:#fff0f5;
+  font-family:'Playfair Display',serif;
 }
 
 /* VIDEO */
 #bg-video{
-position:fixed;
-inset:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:-2;
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-2;
+  transform:translateZ(0);
+  will-change:transform;
 }
 
 /* CURTAINS */
 .curtain{
-position:fixed;
-top:0;
-width:50vw;
-height:100vh;
-background:#000;
-z-index:9999;
-transition:transform 4s cubic-bezier(.45,0,.55,1);
+  position:fixed;
+  top:0;
+  width:50vw;
+  height:calc(var(--vh) * 100);
+  background:#000;
+  z-index:9999;
+  transition:transform 4s cubic-bezier(.45,0,.55,1);
 }
 #close-left{left:0;transform:translateX(-100%)}
 #close-right{right:0;transform:translateX(100%)}
 .curtain.active{transform:translateX(0)}
 
-/* END MESSAGE – ABOVE CENTER */
+/* END MESSAGE */
 #end-message{
-position:fixed;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
-color:white;
-font-size:clamp(1.5rem,4vw,3rem);
-z-index:10000;
-opacity:0;
-pointer-events:none;
-transform: translateY(-10vh); /* ABOVE CENTER */
-transition:opacity 2s ease 3s;
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:clamp(1.5rem,4vw,3rem);
+  z-index:10000;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 2s ease 3s;
 }
 
 /* OVERLAY */
 .bg-overlay{
-position:fixed;
-inset:0;
-background:rgba(255,255,255,.12);
-z-index:0;
-pointer-events:none;
+  position:fixed;
+  inset:0;
+  background:rgba(255,255,255,.12);
+  z-index:0;
+  pointer-events:none;
 }
 
 #nature-canvas{
-position:fixed;
-inset:0;
-z-index:1;
-pointer-events:none;
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
 }
 
 /* START */
 #start-overlay{
-position:fixed;
-inset:0;
-background:#fff5f7;
-z-index:100;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-transition:opacity 2s ease;
+  position:fixed;
+  inset:0;
+  background:#fff5f7;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:opacity 2s ease;
 }
 #start-overlay h1{
-color:#ff69b4;
-letter-spacing:8px;
-font-size:clamp(.9rem,3vw,1.2rem);
-animation:breathe 3s infinite;
+  color:#ff69b4;
+  letter-spacing:8px;
+  font-size:clamp(.9rem,3vw,1.2rem);
+  animation:breathe 3s infinite;
 }
 
 @keyframes breathe{
-0%,100%{opacity:.3;transform:scale(.95)}
-50%{opacity:1;transform:scale(1)}
+  0%,100%{opacity:.3;transform:scale(.95)}
+  50%{opacity:1;transform:scale(1)}
 }
 
-/* CENTERED LYRICS */
+/* CONTENT */
 .content-area{
-position:relative;
-z-index:10;
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-transition:opacity 1.5s ease;
-}
-
-.content-area.hide{
-opacity:0;
-pointer-events:none;
+  position:relative;
+  z-index:10;
+  height:calc(var(--vh) * 100);
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:15vh;
+  text-align:center;
 }
 
 .lyric-line{
-font-size:clamp(1.8rem,6vw,4.5rem);
-color:#ff1493;
-font-style:italic;
-max-width:90%;
-text-shadow:2px 2px 10px rgba(255,255,255,.9);
+  font-size:clamp(1.8rem,6vw,4.5rem);
+  color:#ff1493;
+  font-style:italic;
+  max-width:90%;
+  text-shadow:2px 2px 10px rgba(255,255,255,.9);
 }
 
-/* TEXT ANIMATION */
 .char{
-display:inline-block;
-opacity:0;
-filter:blur(15px);
-transform:translateY(20px) scale(.8);
-transition:all 1.6s cubic-bezier(.175,.885,.32,1.1);
+  display:inline-block;
+  opacity:0;
+  filter:blur(15px);
+  transform:translateY(20px) scale(.8);
+  transition:transform 1.6s cubic-bezier(.175,.885,.32,1.1),
+             opacity 1.6s ease,
+             filter 1.6s ease;
+  will-change:transform,opacity;
 }
+
 .char.visible{
-opacity:1;
-filter:blur(0);
-transform:none;
+  opacity:1;
+  filter:blur(0);
+  transform:none;
 }
+
 .char.exit{
-opacity:0;
-filter:blur(10px);
-transform:translateY(-30px) scale(1.05);
-transition-duration:1.2s;
+  opacity:0;
+  filter:blur(8px);
+  transform:translateY(-30px) scale(1.05);
+  transition-duration:1.2s;
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width:768px){
+  .char{filter:blur(10px)}
+  .char.exit{filter:blur(6px)}
 }
 
 audio{display:none}
@@ -153,7 +164,7 @@ audio{display:none}
 <body>
 
 <video id="bg-video" autoplay muted loop playsinline>
-<source src="bg.mp4" type="video/mp4">
+  <source src="bg.mp4" type="video/mp4">
 </video>
 
 <div id="start-overlay"><h1>Tap to Bloom</h1></div>
@@ -165,15 +176,27 @@ audio{display:none}
 <div class="bg-overlay"></div>
 <canvas id="nature-canvas"></canvas>
 
-<div class="content-area" id="content">
-<div id="lyric" class="lyric-line"></div>
+<div class="content-area">
+  <div id="lyric" class="lyric-line"></div>
 </div>
 
 <audio id="song">
-<source src="l.mp4" type="audio/mp4">
+  <source src="l.mp4" type="audio/mp4">
 </audio>
 
 <script>
+/* FIX MOBILE VH */
+function setVH(){
+  document.documentElement.style.setProperty(
+    '--vh',
+    `${window.innerHeight * 0.01}px`
+  );
+}
+setVH();
+addEventListener('resize', setVH);
+addEventListener('orientationchange', setVH);
+
+/* LYRICS */
 const lyricData=[
 {time:0,text:"O nil gagan ke divaane"},
 {time:4,text:"Tu pyaar na meraa pahachaane"},
@@ -195,98 +218,102 @@ const startOverlay=document.getElementById("start-overlay");
 const leftCurtain=document.getElementById("close-left");
 const rightCurtain=document.getElementById("close-right");
 const endMsg=document.getElementById("end-message");
-const content=document.getElementById("content");
 
 let lastIndex=-1,hasClosed=false;
 
 function renderText(text){
-lyricEl.querySelectorAll(".char").forEach(c=>c.classList.add("exit"));
-setTimeout(()=>{
-lyricEl.innerHTML="";
-text.split("").forEach((ch,i)=>{
-const s=document.createElement("span");
-s.textContent=ch===" "?"\u00A0":ch;
-s.className="char";
-s.style.transitionDelay=`${i*45}ms`;
-lyricEl.appendChild(s);
-requestAnimationFrame(()=>s.classList.add("visible"));
-});
-},700);
+  lyricEl.querySelectorAll(".char").forEach(c=>c.classList.add("exit"));
+  setTimeout(()=>{
+    lyricEl.innerHTML="";
+    text.split("").forEach((ch,i)=>{
+      const s=document.createElement("span");
+      s.textContent=ch===" "?"\u00A0":ch;
+      s.className="char";
+      s.style.transitionDelay=`${i*45}ms`;
+      lyricEl.appendChild(s);
+      requestAnimationFrame(()=>s.classList.add("visible"));
+    });
+  },600);
 }
 
 /* PARTICLES */
 const canvas=document.getElementById("nature-canvas");
 const ctx=canvas.getContext("2d");
-let petals=[],isMobile=innerWidth<768;
+let petals=[];
+let isMobile=innerWidth<768;
 
 function initParticles(){
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-petals=[];
-let count=isMobile?22:40;
-for(let i=0;i<count;i++){
-petals.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*7+3,
-s:Math.random()*(isMobile?.4:.7)+.3,
-color:`rgba(255,${180+Math.random()*40},${200+Math.random()*20},.7)`
-});
-}
+  canvas.width=innerWidth;
+  canvas.height=innerHeight;
+  petals=[];
+  let count=isMobile?22:40;
+  for(let i=0;i<count;i++){
+    petals.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      r:Math.random()*7+3,
+      s:Math.random()*(isMobile?.4:.7)+.3,
+      color:`rgba(255,${180+Math.random()*40},${200+Math.random()*20},.7)`
+    });
+  }
 }
 
-function draw(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-petals.forEach(p=>{
-p.y+=p.s;
-p.x+=Math.sin(p.y/70);
-if(p.y>canvas.height)p.y=-20;
-ctx.fillStyle=p.color;
-ctx.beginPath();
-ctx.moveTo(p.x,p.y);
-ctx.bezierCurveTo(p.x-p.r,p.y,p.x-p.r,p.y+p.r,p.x,p.y+p.r);
-ctx.bezierCurveTo(p.x+p.r,p.y+p.r,p.x+p.r,p.y,p.x,p.y);
-ctx.fill();
-});
-requestAnimationFrame(draw);
+let lastFrame=0;
+const FPS=isMobile?30:60;
+
+function draw(ts){
+  if(ts-lastFrame<1000/FPS){
+    requestAnimationFrame(draw);
+    return;
+  }
+  lastFrame=ts;
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  petals.forEach(p=>{
+    p.y+=p.s;
+    p.x+=Math.sin(p.y/80);
+    if(p.y>canvas.height)p.y=-20;
+    ctx.fillStyle=p.color;
+    ctx.beginPath();
+    ctx.moveTo(p.x,p.y);
+    ctx.bezierCurveTo(p.x-p.r,p.y,p.x-p.r,p.y+p.r,p.x,p.y+p.r);
+    ctx.bezierCurveTo(p.x+p.r,p.y+p.r,p.x+p.r,p.y,p.x,p.y);
+    ctx.fill();
+  });
+
+  requestAnimationFrame(draw);
 }
+
+addEventListener("resize",()=>setTimeout(initParticles,300));
 
 function triggerClose(){
-if(hasClosed)return;
-hasClosed=true;
-
-/* hide lyrics */
-content.classList.add("hide");
-
-/* close curtains */
-leftCurtain.classList.add("active");
-rightCurtain.classList.add("active");
-
-/* show end */
-endMsg.style.opacity=1;
+  if(hasClosed)return;
+  hasClosed=true;
+  leftCurtain.classList.add("active");
+  rightCurtain.classList.add("active");
+  endMsg.style.opacity=1;
 }
 
-addEventListener("resize",initParticles);
-
 startOverlay.onclick=()=>{
-startOverlay.style.opacity=0;
-setTimeout(()=>startOverlay.remove(),2000);
-song.play();
-initParticles();
-draw();
+  startOverlay.style.opacity=0;
+  setTimeout(()=>startOverlay.remove(),2000);
+  song.play();
+  initParticles();
+  requestAnimationFrame(draw);
 };
 
 song.ontimeupdate=()=>{
-let t=song.currentTime,i=-1;
-for(let j=0;j<lyricData.length;j++)
-if(t>=lyricData[j].time)i=j;
-if(i!==-1&&i!==lastIndex){
-renderText(lyricData[i].text);
-lastIndex=i;
-}
-if(song.duration&&song.duration-t<.5)triggerClose();
-};
+  let t=song.currentTime,i=-1;
+  for(let j=0;j<lyricData.length;j++)
+    if(t>=lyricData[j].time)i=j;
 
+  if(i!==-1&&i!==lastIndex){
+    renderText(lyricData[i].text);
+    lastIndex=i;
+  }
+
+  if(song.duration&&song.duration-t<.5)triggerClose();
+};
 song.onended=triggerClose;
 </script>
 
